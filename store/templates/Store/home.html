@@ -1,0 +1,216 @@
+{% extends 'store/base.html' %}
+
+
+{% block title %}
+Home
+{% endblock %}
+
+
+
+{% block content %}
+
+
+<!-- Hero Section -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <h1>
+            Welcome to ShopEasy
+        </h1>
+
+
+        <p>
+            Discover amazing products at the best prices.
+        </p>
+
+
+        <a href="#products" class="shop-btn">
+            Shop Now
+        </a>
+
+    </div>
+
+</section>
+
+
+
+
+
+<!-- Categories -->
+
+<section id="categories">
+
+
+    <h2 class="section-title">
+        Shop By Category
+    </h2>
+
+
+
+    <div class="categories">
+
+
+        {% for category in categories %}
+
+
+        <div class="category-card">
+
+
+            <h3>
+                {{ category.name }}
+            </h3>
+
+
+            <a href="{% url 'category_products' category.id %}" 
+               class="category-btn">
+
+                View Products
+
+            </a>
+
+
+        </div>
+
+
+
+        {% empty %}
+
+
+        <h3>
+            No categories available.
+        </h3>
+
+
+        {% endfor %}
+
+
+    </div>
+
+
+</section>
+
+
+
+
+
+
+
+<!-- Products -->
+
+
+<section id="products">
+
+
+    <h2 class="section-title">
+        Featured Products
+    </h2>
+
+
+
+
+    <div class="products">
+
+
+
+        {% for product in products %}
+
+
+
+        <div class="card">
+
+
+
+            {% if product.image %}
+
+            <img 
+                src="{{ product.image.url }}" 
+                alt="{{ product.name }}"
+                class="product-image"
+            >
+
+            {% endif %}
+
+
+
+
+
+            <div class="product-content">
+
+
+                <h3>
+                    {{ product.name }}
+                </h3>
+
+
+
+
+                <p class="price">
+
+                    ₹ {{ product.price }}
+
+                </p>
+
+
+
+
+
+                <div class="card-buttons">
+
+
+                    <a href="{% url 'product_detail' product.id %}" 
+                       class="details-btn">
+
+                        View Details
+
+                    </a>
+
+
+
+
+
+                    <a href="{% url 'add_to_cart' product.id %}" 
+                       class="cart-btn">
+
+                        Add to Cart
+
+                    </a>
+
+
+
+                </div>
+
+
+
+            </div>
+
+
+
+        </div>
+
+
+
+        {% empty %}
+
+
+
+        <h3>
+            No products available.
+        </h3>
+
+
+
+        {% endfor %}
+
+
+
+    </div>
+
+
+
+</section>
+
+
+
+{% endblock %}

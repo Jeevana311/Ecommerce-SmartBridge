@@ -1,0 +1,106 @@
+{% extends 'store/base.html' %}
+
+
+{% block title %}
+{{ product.name }}
+{% endblock %}
+
+
+
+{% block content %}
+
+
+<div class="product-container">
+
+
+
+    <!-- Product Image -->
+
+    <div class="product-detail-image">
+
+        {% if product.image %}
+
+        <img 
+            src="{{ product.image.url }}" 
+            alt="{{ product.name }}"
+        >
+
+        {% endif %}
+
+    </div>
+
+
+
+
+
+    <!-- Product Details -->
+
+    <div class="product-info">
+
+
+        <h1>
+            {{ product.name }}
+        </h1>
+
+
+
+        <h2>
+            ₹ {{ product.price }}
+        </h2>
+
+
+
+
+        <p>
+            {{ product.description }}
+        </p>
+
+
+
+
+        <p>
+            Stock Available:
+            {{ product.stock }}
+        </p>
+
+
+
+
+
+        <div class="detail-buttons">
+
+
+            <a href="{% url 'add_to_cart' product.id %}" 
+               class="add-cart-btn">
+
+                Add to Cart 🛒
+
+            </a>
+
+
+
+
+
+            <a href="{% url 'home' %}" 
+               class="continue-btn">
+
+                Continue Shopping
+
+            </a>
+
+
+
+        </div>
+
+
+
+
+    </div>
+
+
+
+</div>
+
+
+
+{% endblock %}

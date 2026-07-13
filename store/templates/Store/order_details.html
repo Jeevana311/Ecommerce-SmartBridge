@@ -1,0 +1,336 @@
+{% extends 'store/base.html' %}
+
+
+
+{% block title %}
+
+Order Details
+
+{% endblock %}
+
+
+
+
+
+
+{% block content %}
+
+
+
+
+<h1 class="section-title">
+
+    Order Details 📦
+
+</h1>
+
+
+
+
+
+
+
+<div class="cart-container">
+
+
+
+
+
+<div class="cart-item">
+
+
+
+
+
+
+<div class="cart-details">
+
+
+
+
+
+
+<h2>
+
+    Order #{{ order.id }}
+
+</h2>
+
+
+
+
+
+
+<p>
+
+    Status:
+
+    <span class="order-status">
+
+        {{ order.status }}
+
+    </span>
+
+</p>
+
+
+
+
+
+
+
+<p>
+
+    Customer Name:
+
+    {{ order.full_name }}
+
+</p>
+
+
+
+
+
+
+
+<p>
+
+    Email:
+
+    {{ order.email }}
+
+</p>
+
+
+
+
+
+
+
+<p>
+
+    Phone:
+
+    {{ order.phone }}
+
+</p>
+
+
+
+
+
+
+
+<p>
+
+    Address:
+
+    {{ order.address }}
+
+</p>
+
+
+
+
+
+
+
+<hr>
+
+
+
+
+
+
+
+<h3>
+
+    Products
+
+</h3>
+
+
+
+
+
+
+
+
+
+{% for item in order.items.all %}
+
+
+
+
+
+
+
+<div class="cart-item">
+
+
+
+
+
+{% if item.product.image %}
+
+<img 
+src="{{ item.product.image.url }}"
+alt="{{ item.product.name }}"
+>
+
+{% endif %}
+
+
+
+
+
+
+<div class="cart-details">
+
+
+
+
+
+<h4>
+
+{{ item.product.name }}
+
+</h4>
+
+
+
+
+
+
+
+<p>
+
+Quantity:
+
+{{ item.quantity }}
+
+</p>
+
+
+
+
+
+
+
+<p>
+
+Price:
+
+₹ {{ item.product.price }}
+
+</p>
+
+
+
+
+
+
+
+<p>
+
+Subtotal:
+
+₹ {{ item.product.price|floatformat:2 }}
+
+× {{ item.quantity }}
+
+</p>
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+{% empty %}
+
+
+
+<p>
+
+No products found.
+
+</p>
+
+
+
+
+
+{% endfor %}
+
+
+
+
+
+
+
+<h2>
+
+Total:
+
+₹ {{ order.total }}
+
+</h2>
+
+
+
+
+
+
+
+<a href="{% url 'my_orders' %}" 
+class="details-btn">
+
+Back To Orders
+
+</a>
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,192 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>
+{% block title %}
+Jeevana Store
+{% endblock %}
+</title>
+
+
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+</head>
+
+
+<body>
+
+
+<header>
+
+<nav class="navbar">
+
+
+<div class="logo">
+🛒 Jeevana Store
+</div>
+
+
+
+<!-- Search Bar -->
+
+<form class="search-box" method="GET" action="{% url 'home' %}">
+
+<input 
+type="text"
+name="search"
+placeholder="Search products..."
+>
+
+
+<button type="submit">
+🔍
+</button>
+
+</form>
+
+<ul>
+
+
+<li>
+<a href="{% url 'home' %}">
+Home
+</a>
+</li>
+
+
+
+<li>
+<a href="{% url 'home' %}#categories">
+Categories
+</a>
+</li>
+
+
+
+<li>
+<a href="{% url 'home' %}#products">
+Products
+</a>
+</li>
+
+
+
+<li>
+<a href="{% url 'cart' %}">
+Cart 🛒
+
+{% if cart_count > 0 %}
+({{ cart_count }})
+{% endif %}
+
+</a>
+</li>
+
+
+
+
+{% if user.is_authenticated %}
+
+
+<li>
+<a href="#">
+Hi, {{ user.username }}
+</a>
+</li>
+
+
+
+<li>
+<a href="{% url 'logout' %}">
+Logout
+</a>
+</li>
+
+
+
+{% else %}
+
+
+
+<li>
+<a href="{% url 'login' %}">
+Login
+</a>
+</li>
+
+
+
+<li>
+<a href="{% url 'register' %}">
+Register
+</a>
+</li>
+
+<li>
+
+<a href="{% url 'my_orders' %}">
+
+My Orders
+
+</a>
+
+</li>
+
+
+{% endif %}
+
+
+
+</ul>
+
+
+
+
+</nav>
+
+</header>
+
+
+
+
+
+{% block content %}
+
+{% endblock %}
+
+
+
+
+
+<footer>
+
+
+<h3>
+Jeevana Store
+</h3>
+
+
+<p>
+Your one stop destination for quality products.
+</p>
+
+
+<p>
+© 2026 Jeevana Store. All rights reserved.
+</p>
+
+
+</footer>
+
+
+
+</body>
+
+</html>

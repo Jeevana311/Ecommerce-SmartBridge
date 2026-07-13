@@ -1,0 +1,221 @@
+{% extends 'store/base.html' %}
+
+
+{% block title %}
+Cart
+{% endblock %}
+
+
+
+{% block content %}
+
+
+
+<div class="cart-container">
+
+
+
+<h1 class="section-title">
+    Your Cart 🛒
+</h1>
+
+
+
+
+
+{% for item in products %}
+
+
+
+<div class="cart-item">
+
+
+
+    <!-- Product Image -->
+
+    <img 
+        src="{{ item.product.image.url }}" 
+        alt="{{ item.product.name }}"
+    >
+
+
+
+
+
+    <!-- Product Details -->
+
+    <div class="cart-details">
+
+
+        <h2>
+            {{ item.product.name }}
+        </h2>
+
+
+
+
+        <p>
+            Price: ₹{{ item.product.price }}
+        </p>
+
+
+
+
+        <p>
+            Subtotal: ₹{{ item.subtotal }}
+        </p>
+
+
+
+
+
+
+        <!-- Quantity Control -->
+
+
+        <div class="quantity-container">
+
+
+            <a href="{% url 'decrease_quantity' item.product.id %}"
+               class="quantity-btn">
+
+                -
+
+            </a>
+
+
+
+
+            <span>
+
+                {{ item.quantity }}
+
+            </span>
+
+
+
+
+
+            <a href="{% url 'increase_quantity' item.product.id %}"
+               class="quantity-btn">
+
+                +
+
+            </a>
+
+
+
+        </div>
+
+
+
+
+
+
+
+        <!-- Remove Button -->
+
+
+        <a href="{% url 'remove_from_cart' item.product.id %}"
+           class="remove-btn">
+
+
+            Remove
+
+
+        </a>
+
+
+
+
+
+    </div>
+
+
+
+
+</div>
+
+
+
+
+{% empty %}
+
+
+
+
+
+<div class="cart-total">
+
+
+    <h2>
+        Your cart is empty
+    </h2>
+
+
+
+    <a href="{% url 'home' %}" class="checkout-btn">
+
+        Continue Shopping
+
+    </a>
+
+
+
+</div>
+
+
+
+
+
+{% endfor %}
+
+
+
+
+
+
+
+{% if products %}
+
+
+<div class="cart-total">
+
+
+
+    <h2>
+
+        Total : ₹{{ total }}
+
+    </h2>
+
+
+
+
+    <a href="{% url 'checkout' %}" 
+       class="checkout-btn">
+
+
+        Proceed to Checkout
+
+
+    </a>
+
+
+
+</div>
+
+
+
+{% endif %}
+
+
+
+
+
+</div>
+
+
+
+
+{% endblock %}

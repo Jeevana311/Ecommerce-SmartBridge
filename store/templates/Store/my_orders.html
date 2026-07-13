@@ -1,0 +1,242 @@
+{% extends 'store/base.html' %}
+
+
+
+{% block title %}
+
+My Orders
+
+{% endblock %}
+
+
+
+
+
+
+{% block content %}
+
+
+
+
+
+<h1 class="section-title">
+
+    My Orders 📦
+
+</h1>
+
+
+
+
+
+
+
+<div class="cart-container">
+
+
+
+
+
+
+{% if orders %}
+
+
+
+
+
+
+{% for order in orders %}
+
+
+
+
+
+
+<div class="cart-item">
+
+
+
+
+
+
+<div class="cart-details">
+
+
+
+
+
+<h2>
+
+    Order #{{ order.id }}
+
+</h2>
+
+
+
+
+
+
+
+<p>
+
+    Customer Name:
+
+    {{ order.full_name }}
+
+</p>
+
+
+
+
+
+
+
+<p>
+
+    Status:
+
+    <span class="order-status">
+
+        {{ order.status }}
+
+    </span>
+
+</p>
+
+
+
+
+
+
+
+<p>
+
+    Total:
+
+    <strong>
+
+        ₹ {{ order.total }}
+
+    </strong>
+
+</p>
+
+
+
+
+
+
+
+
+<a href="{% url 'order_details' order.id %}" 
+   class="details-btn">
+
+    View Details
+
+</a>
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+{% endfor %}
+
+
+
+
+
+
+
+{% else %}
+
+
+
+
+
+
+
+<div class="empty-cart">
+
+
+
+
+
+
+<h2>
+
+    No Orders Found
+
+</h2>
+
+
+
+
+
+
+
+<p>
+
+    You have not placed any orders yet.
+
+</p>
+
+
+
+
+
+
+
+<a href="{% url 'home' %}" class="checkout-btn">
+
+    Start Shopping
+
+</a>
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+{% endif %}
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+{% endblock %}
