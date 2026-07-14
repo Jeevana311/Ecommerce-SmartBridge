@@ -12,6 +12,15 @@ class Category(models.Model):
         max_length=100
     )
 
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    updated_at = models.DateTimeField(
+        auto_now=True
+    )
+
+
     def __str__(self):
         return self.name
 
@@ -26,7 +35,7 @@ class Product(models.Model):
     category = models.ForeignKey(
         Category,
         on_delete=models.CASCADE,
-        related_name='products'
+        related_name="products"
     )
 
     name = models.CharField(
@@ -41,12 +50,21 @@ class Product(models.Model):
     )
 
     image = models.ImageField(
-        upload_to='products/'
+        upload_to="products/"
     )
 
     stock = models.PositiveIntegerField(
         default=0
     )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    updated_at = models.DateTimeField(
+        auto_now=True
+    )
+
 
     def __str__(self):
         return self.name
@@ -61,11 +79,11 @@ class Order(models.Model):
 
     STATUS_CHOICES = [
 
-        ('Pending','Pending'),
-        ('Processing','Processing'),
-        ('Shipped','Shipped'),
-        ('Delivered','Delivered'),
-        ('Cancelled','Cancelled'),
+        ("Pending", "Pending"),
+        ("Processing", "Processing"),
+        ("Shipped", "Shipped"),
+        ("Delivered", "Delivered"),
+        ("Cancelled", "Cancelled"),
 
     ]
 
@@ -95,9 +113,18 @@ class Order(models.Model):
     status = models.CharField(
         max_length=20,
         choices=STATUS_CHOICES,
-        default='Pending'
+        default="Pending"
     )
 
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+
+    updated_at = models.DateTimeField(
+        auto_now=True
+    )
 
 
     def total(self):
@@ -114,12 +141,9 @@ class Order(models.Model):
         return total_price
 
 
-
     def __str__(self):
 
         return f"Order #{self.id}"
-
-
 
 
 
@@ -129,31 +153,26 @@ class Order(models.Model):
 
 class OrderItem(models.Model):
 
-
     order = models.ForeignKey(
-
         Order,
-
         on_delete=models.CASCADE,
-
-        related_name='items'
-
+        related_name="items"
     )
 
 
     product = models.ForeignKey(
-
         Product,
-
         on_delete=models.CASCADE
-
     )
 
 
     quantity = models.PositiveIntegerField(
-
         default=1
+    )
 
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
     )
 
 

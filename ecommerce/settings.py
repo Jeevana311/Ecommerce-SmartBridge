@@ -4,8 +4,11 @@ Django settings for ecommerce project.
 
 import os
 import dj_database_url
+from dotenv import load_dotenv
 
 from pathlib import Path
+
+load_dotenv()
 
 
 # Build paths
@@ -18,7 +21,7 @@ SECRET_KEY = os.environ.get(
     "django-insecure-m82iqj#@s*)qnezbrwt+tq2f_e7=ei23hyz^n^st^r%a$q2)bt"
 )
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
@@ -93,9 +96,12 @@ WSGI_APPLICATION = 'ecommerce.wsgi.application'
 
 # Database
 
+import dj_database_url
+
 DATABASES = {
     'default': dj_database_url.config(
-        default=os.environ.get("STORAGE_POSTGRES_URL")
+        default=os.getenv('DATABASE_URL'),
+        conn_max_age=600,
     )
 }
 
