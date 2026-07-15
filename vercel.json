@@ -1,5 +1,5 @@
 {
-  "version":2,
+  "version": 2,
   "builds": [
     {
       "src": "ecommerce/wsgi.py",
@@ -7,6 +7,14 @@
     }
   ],
   "routes": [
+    {
+      "src": "/static/(.*)",
+      "dest": "/static/$1"
+    },
+    {
+      "src": "/media/(.*)",
+      "dest": "/media/$1"
+    },
     {
       "src": "/(.*)",
       "dest": "ecommerce/wsgi.py"
