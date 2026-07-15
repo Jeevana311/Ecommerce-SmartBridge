@@ -2,8 +2,7 @@
 Django settings for ecommerce project.
 """
 
-import os
-import dj_database_url
+
 from dotenv import load_dotenv
 
 from pathlib import Path
@@ -21,9 +20,13 @@ SECRET_KEY = os.environ.get(
     "django-insecure-m82iqj#@s*)qnezbrwt+tq2f_e7=ei23hyz^n^st^r%a$q2)bt"
 )
 
-DEBUG = True
+DEBUG = os.environ.get("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = [
+    ".vercel.app",
+    "localhost",
+    "127.0.0.1"
+]
 
 
 # Applications
@@ -70,8 +73,9 @@ TEMPLATES = [
 
         # If you have project-level templates folder add:
         # BASE_DIR / "templates"
-        'DIRS': [],
-
+        'DIRS': [
+    BASE_DIR / "templates"
+],
         'APP_DIRS': True,
 
         'OPTIONS': {
@@ -96,14 +100,30 @@ WSGI_APPLICATION = 'ecommerce.wsgi.application'
 
 # Database
 
+import os
 import dj_database_url
 
-DATABASES = {
-    'default': dj_database_url.config(
-        default=os.getenv('DATABASE_URL'),
-        conn_max_age=600,
-    )
-}
+
+# Database Configuration
+
+if os.environ.get("DATABASE_URL"):
+    # Production database (Vercel PostgreSQL)
+    DATABASES = {
+        "default": dj_database_url.config(
+            default=os.environ.get("DATABASE_URL"),
+            conn_max_age=600,
+            ssl_require=True
+        )
+    }
+
+else:
+    # Local development database
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
 
 
 # Password Validation
