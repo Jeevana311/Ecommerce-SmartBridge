@@ -1,0 +1,458 @@
+
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block title %}Cartly Marketplace{% endblock %}
+
+{% block content %}
+
+<main class="container">
+
+    <!-- ==================== HERO SECTION ==================== -->
+
+    <section class="market-hero" aria-label="Cartly marketplace introduction">
+
+        <!-- LEFT SIDE: HERO CONTENT -->
+
+        <div class="market-hero-copy">
+
+            <p class="market-kicker">
+                CARTLY MARKETPLACE
+            </p>
+
+            <h1>
+                Shop Smart.
+                <br>
+                Live Better.
+            </h1>
+
+            <p class="hero-description">
+                Discover everyday essentials, useful technology,
+                fashion and more — all in one practical place.
+            </p>
+
+            <div class="hero-actions">
+
+                <a href="#products" class="btn btn-primary">
+                    Shop products
+                    <span aria-hidden="true">→</span>
+                </a>
+
+                <a href="#categories" class="btn hero-outline-btn">
+                    Explore categories
+                </a>
+
+            </div>
+
+            <div class="market-stats">
+
+                <div class="market-stat">
+                    <strong>Quality picks</strong>
+                    <span>For everyday life</span>
+                </div>
+
+                <div class="market-stat">
+                    <strong>Secure shopping</strong>
+                    <span>Simple checkout</span>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- RIGHT SIDE: HERO IMAGE -->
+
+        <div class="hero-visual">
+
+            <img
+                class="hero-image"
+                src="{% static 'images/cartly-hero-shopping.svg' %}"
+                alt="Shopping illustration featuring electronics, fashion and home essentials"
+            >
+
+        </div>
+
+    </section>
+
+
+    <!-- ==================== CATEGORIES SECTION ==================== -->
+
+    <section id="categories" class="page-section">
+
+        <div class="section-header">
+
+            <div>
+                <p class="section-kicker">
+                    DISCOVER
+                </p>
+
+                <h2>
+                    Shop by category
+                </h2>
+            </div>
+
+            <p>
+                {{ categories|length }} categories
+            </p>
+
+        </div>
+
+
+        <div class="category-grid">
+
+            {% for category in categories %}
+
+                <a
+                    class="category-tile"
+                    href="{% url 'category_products' category.id %}"
+                >
+
+                    <span class="category-mark">
+
+                        <img
+                            src="{% static category.image_key %}"
+                            alt="{{ category.name }}"
+                        >
+
+                    </span>
+
+                    <span>
+                        {{ category.name }}
+                    </span>
+
+                </a>
+
+            {% empty %}
+
+                <div class="empty-state">
+
+                    <h3>
+                        No categories available
+                    </h3>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+
+    <!-- ==================== PRODUCTS SECTION ==================== -->
+
+    <section id="products" class="page-section">
+
+        <div class="catalog-header">
+
+            <div>
+
+                <p class="section-kicker">
+
+                    {% if selected_category %}
+                        CATEGORY CATALOGUE
+                    {% else %}
+                        MARKETPLACE CATALOGUE
+                    {% endif %}
+
+                </p>
+
+
+                <h1>
+
+                    {% if selected_category %}
+                        {{ selected_category.name }}
+                    {% else %}
+                        Featured products
+                    {% endif %}
+
+                </h1>
+
+
+                <p>
+
+                    {% if request.GET.search %}
+
+                        <span class="search-note">
+                            Search results for "{{ request.GET.search }}"
+                        </span>
+
+                    {% else %}
+
+                        {{ products|length }} products ready to explore
+
+                    {% endif %}
+
+                </p>
+
+            </div>
+
+
+            <!-- SEARCH FORM -->
+
+            <form
+                method="GET"
+                action="{% if selected_category %}{% url 'category_products' selected_category.id %}{% else %}{% url 'home' %}{% endif %}"
+                class="search-form"
+            >
+
+                <input
+                    type="text"
+                    name="search"
+                    placeholder="Search products..."
+                    value="{{ request.GET.search|default:'' }}"
+                    aria-label="Search products"
+                >
+
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                >
+                    Search
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- PRODUCT GRID -->
+
+        <div class="product-grid">
+
+            {% for product in products %}
+
+                <article class="product-card">
+
+                    <!-- PRODUCT IMAGE -->
+
+                    <a
+                        class="product-image-box"
+                        href="{% url 'product_detail' product.id %}"
+                    >
+
+                        {% if product.image %}
+
+                            <img
+                                class="product-image"
+                                src="{{ product.image.url }}"
+                                alt="{{ product.name }}"
+                                loading="lazy"
+                            >
+
+                        {% else %}
+
+                            <div
+                                class="product-image-missing"
+                                role="img"
+                                aria-label="Image pending for {{ product.name }}"
+                            >
+                                Image pending
+                            </div>
+
+                        {% endif %}
+
+                    </a>
+
+
+                    <!-- PRODUCT INFORMATION -->
+
+                    <div class="product-info">
+
+                        <p class="product-category">
+                            {{ product.category.name }}
+                        </p>
+
+
+                        <h3 class="product-title">
+
+                            <a href="{% url 'product_detail' product.id %}">
+                                {{ product.name }}
+                            </a>
+
+                        </h3>
+
+
+                        <p class="product-description">
+
+                            {{ product.description|default:'Everyday product from Cartly.'|truncatewords:12 }}
+
+                        </p>
+
+
+                        <div class="product-meta">
+
+                            <span class="product-price">
+                                ₹ {{ product.price }}
+                            </span>
+
+
+                            <span
+                                class="product-stock {% if product.stock == 0 %}out{% endif %}"
+                            >
+
+                                {% if product.stock == 0 %}
+
+                                    Out of stock
+
+                                {% else %}
+
+                                    In stock
+
+                                {% endif %}
+
+                            </span>
+
+                        </div>
+
+
+                        <!-- PRODUCT ACTIONS -->
+
+                        <div class="product-actions">
+
+                            {% if product.stock > 0 %}
+
+                                <a
+                                    href="{% url 'add_to_cart' product.id %}"
+                                    class="btn btn-primary btn-small"
+                                >
+                                    Add to cart
+                                </a>
+
+                            {% else %}
+
+                                <span
+                                    class="btn btn-primary btn-small product-disabled"
+                                >
+                                    Out of stock
+                                </span>
+
+                            {% endif %}
+
+
+                            <a
+                                href="{% url 'product_detail' product.id %}"
+                                class="btn btn-outline btn-small"
+                            >
+                                Details
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+            {% empty %}
+
+                <div
+                    class="empty-state"
+                    style="grid-column: 1 / -1;"
+                >
+
+                    <h2>
+                        No products found
+                    </h2>
+
+                    <p>
+                        Try another search or browse the categories above.
+                    </p>
+
+                    <a
+                        href="{% url 'home' %}#categories"
+                        class="btn btn-primary"
+                    >
+                        Browse categories
+                    </a>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+
+    <!-- ==================== CARTLY BENEFITS ==================== -->
+
+    <section class="page-section">
+
+        <div class="section-header">
+
+            <div>
+
+                <p class="section-kicker">
+                    CARTLY PROMISE
+                </p>
+
+                <h2>
+                    Shopping made practical
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <div class="benefit-grid">
+
+            <div class="benefit-card">
+
+                <strong>
+                    Clear product information
+                </strong>
+
+                <span>
+                    See pricing, stock and descriptions before you buy.
+                </span>
+
+            </div>
+
+
+            <div class="benefit-card">
+
+                <strong>
+                    Simple cart controls
+                </strong>
+
+                <span>
+                    Adjust quantities and review your total in one place.
+                </span>
+
+            </div>
+
+
+            <div class="benefit-card">
+
+                <strong>
+                    Focused checkout
+                </strong>
+
+                <span>
+                    A short customer and delivery form gets you moving.
+                </span>
+
+            </div>
+
+
+            <div class="benefit-card">
+
+                <strong>
+                    Order visibility
+                </strong>
+
+                <span>
+                    Track your Cartly purchases from your account.
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+{% endblock %}

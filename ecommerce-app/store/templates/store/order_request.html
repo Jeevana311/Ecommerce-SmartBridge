@@ -1,0 +1,38 @@
+{% extends 'store/base.html' %}
+
+{% block title %}{{ request_type }} Request | Cartly{% endblock %}
+
+{% block content %}
+<main class="container section">
+    <div class="auth-card request-card">
+        <p class="eyebrow">Order #{{ order.id }}</p>
+        <h1>Request {{ request_type }}</h1>
+        <p class="auth-subtitle">This creates a request for review. It does not change your order immediately.</p>
+        <form method="post" class="auth-form">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="item_id">Item</label>
+                <select id="item_id" name="item_id" required>
+                    {% for item in order.items.all %}<option value="{{ item.id }}">{{ item.product.name }} ({{ item.quantity }})</option>{% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="reason">Reason</label>
+                <select id="reason" name="reason" required>
+                    <option value="">Select a reason</option>
+                    <option value="Damaged item">Damaged item</option>
+                    <option value="Wrong item received">Wrong item received</option>
+                    <option value="Item not as expected">Item not as expected</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="details">Additional details</label>
+                <textarea id="details" name="details" rows="4"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit {{ request_type }} Request</button>
+            <a href="{% url 'order_details' order.id %}" class="btn btn-outline">Keep Order</a>
+        </form>
+    </div>
+</main>
+{% endblock %}

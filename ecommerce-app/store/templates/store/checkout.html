@@ -1,0 +1,236 @@
+
+{% extends "store/base.html" %}
+
+{% block title %}Checkout | Cartly{% endblock %}
+
+{% block content %}
+
+<main class="checkout-page">
+    <div class="container checkout-container">
+
+        <!-- Breadcrumb -->
+        <nav class="checkout-breadcrumb" aria-label="Breadcrumb">
+            <a href="{% url 'home' %}">Home</a>
+            <span>/</span>
+            <a href="{% url 'cart' %}">Cart</a>
+            <span>/</span>
+            <strong>Checkout</strong>
+        </nav>
+
+        <!-- Page Heading -->
+        <div class="checkout-heading">
+            <span class="page-eyebrow">CARTLY CHECKOUT</span>
+            <h1>Complete your order</h1>
+            <p>Review your items and provide your delivery details.</p>
+        </div>
+
+        <!-- Checkout Progress -->
+        <div class="checkout-progress">
+            <div class="progress-step completed">
+                <span>✓</span>
+                <p>Cart</p>
+            </div>
+
+            <div class="progress-line active"></div>
+
+            <div class="progress-step active">
+                <span>2</span>
+                <p>Checkout</p>
+            </div>
+
+            <div class="progress-line"></div>
+
+            <div class="progress-step">
+                <span>3</span>
+                <p>Confirmation</p>
+            </div>
+        </div>
+
+        <div class="checkout-layout">
+
+            <!-- Delivery Section -->
+            <section class="checkout-card">
+
+                <div class="checkout-card-heading">
+                    <div class="checkout-heading-icon">⌖</div>
+
+                    <div>
+                        <h2>Delivery information</h2>
+                        <p>Where should we deliver your order?</p>
+                    </div>
+                </div>
+
+                <form method="POST" class="checkout-form">
+                    {% csrf_token %}
+
+                    <div class="form-grid">
+
+                        <div class="form-field full-width">
+                            <label for="full_name">Full name</label>
+                            <input
+                                type="text"
+                                id="full_name"
+                                name="full_name"
+                                value="{{ default_name }}"
+                                placeholder="Enter your full name"
+                                autocomplete="name"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-field">
+                            <label for="email">Email address</label>
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                value="{{ default_email }}"
+                                placeholder="you@example.com"
+                                autocomplete="email"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-field">
+                            <label for="phone">Phone number</label>
+                            <input
+                                type="tel"
+                                id="phone"
+                                name="phone"
+                                placeholder="Enter phone number"
+                                autocomplete="tel"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-field full-width">
+                            <label for="address">Complete delivery address</label>
+                            <textarea
+                                id="address"
+                                name="address"
+                                rows="5"
+                                placeholder="House/flat number, street, city, state, PIN code"
+                                autocomplete="street-address"
+                                required
+                            ></textarea>
+                        </div>
+
+                    </div>
+
+                    <div class="checkout-payment-note">
+                        <span>✓</span>
+                        <div>
+                            <strong>Cash on delivery</strong>
+                            <p>Order payment options can be extended later.</p>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="primary-checkout-btn">
+                        Place order
+                        <span>→</span>
+                    </button>
+
+                    <p class="checkout-security-note">
+                        🔒 Your information is handled securely.
+                    </p>
+                </form>
+
+            </section>
+
+            <!-- Order Summary -->
+            <aside class="checkout-summary-card">
+
+                <div class="summary-top">
+                    <div>
+                        <span class="page-eyebrow">YOUR CART</span>
+                        <h2>Order summary</h2>
+                    </div>
+
+                    <span class="summary-review-badge">Review</span>
+                </div>
+
+                <div class="summary-products">
+
+                    {% for item in cart_items %}
+                    <div class="summary-product">
+
+                        <div class="summary-product-image">
+                            {% if item.product.image %}
+                                <img
+                                    src="{{ item.product.image.url }}"
+                                    alt="{{ item.product.name }}"
+                                >
+                            {% else %}
+                                <span>🛍</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="summary-product-details">
+                            <h3>{{ item.product.name }}</h3>
+                            <p>Quantity: {{ item.quantity }}</p>
+                            <strong>₹{{ item.total_price }}</strong>
+                        </div>
+
+                    </div>
+                    {% empty %}
+                    <div class="checkout-empty-state">
+                        <p>Your cart is empty.</p>
+                        <a href="{% url 'home' %}#products">Continue shopping</a>
+                    </div>
+                    {% endfor %}
+
+                </div>
+
+                <div class="summary-divider"></div>
+
+                <div class="summary-price-row">
+                    <span>Subtotal</span>
+                    <strong>₹{{ total }}</strong>
+                </div>
+
+                <div class="summary-price-row">
+                    <span>Delivery</span>
+                    <strong class="free-text">FREE</strong>
+                </div>
+
+                <div class="summary-price-row">
+                    <span>Discount</span>
+                    <strong>₹0</strong>
+                </div>
+
+                <div class="summary-divider"></div>
+
+                <div class="summary-total-row">
+                    <span>Total amount</span>
+                    <strong>₹{{ total }}</strong>
+                </div>
+
+                <div class="summary-benefits">
+                    <div>
+                        <span>✓</span>
+                        <p>Secure checkout</p>
+                    </div>
+
+                    <div>
+                        <span>✓</span>
+                        <p>Quality products</p>
+                    </div>
+
+                    <div>
+                        <span>✓</span>
+                        <p>Easy order tracking</p>
+                    </div>
+                </div>
+
+                <a href="{% url 'cart' %}" class="back-to-cart-link">
+                    ← Back to cart
+                </a>
+
+            </aside>
+
+        </div>
+
+    </div>
+</main>
+
+{% endblock %}

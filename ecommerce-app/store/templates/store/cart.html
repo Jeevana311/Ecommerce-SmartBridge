@@ -1,0 +1,228 @@
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block title %}Shopping Cart | Cartly{% endblock %}
+
+{% block content %}
+
+<div class="container cart-page">
+
+    <!-- =========================
+         PAGE HEADER
+    ========================== -->
+    <div class="page-header">
+
+        <p class="eyebrow">
+            Your basket
+        </p>
+
+        <h1>
+            Shopping Cart
+        </h1>
+
+    </div>
+
+
+    {% if products %}
+
+        <div class="cart-layout">
+
+
+            <!-- =========================
+                 CART ITEMS
+            ========================== -->
+            <div class="cart-items-panel">
+
+                {% for item in products %}
+
+                    <div class="cart-item">
+
+
+                        <!-- PRODUCT IMAGE -->
+                        <div class="cart-item-image">
+
+                            {% if item.product.image %}
+                                <img class="product-image" src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                            {% else %}
+                                <div class="product-image-missing" role="img" aria-label="Image pending for {{ item.product.name }}">Image pending</div>
+                            {% endif %}
+
+                        </div>
+
+
+                        <!-- PRODUCT DETAILS -->
+                        <div class="cart-item-details">
+
+                            <p class="product-category">
+                                {{ item.product.category.name }}
+                            </p>
+
+
+                            <h2>
+                                {{ item.product.name }}
+                            </h2>
+
+
+                            <p class="item-price">
+                                ₹ {{ item.product.price }}
+                            </p>
+
+
+                            <p class="item-meta">
+                                Subtotal: ₹ {{ item.subtotal }}
+                            </p>
+
+
+                            <!-- =========================
+                                 QUANTITY CONTROLS
+                            ========================== -->
+                            <div class="quantity-controls">
+
+                                <a
+                                    href="{% url 'decrease_quantity' item.product.id %}"
+                                    class="qty-btn"
+                                    aria-label="Decrease quantity"
+                                >
+                                    −
+                                </a>
+
+
+                                <span>
+                                    {{ item.quantity }}
+                                </span>
+
+
+                                {% if item.quantity < item.product.stock %}
+
+                                    <a
+                                        href="{% url 'increase_quantity' item.product.id %}"
+                                        class="qty-btn"
+                                        aria-label="Increase quantity"
+                                    >
+                                        +
+                                    </a>
+
+                                {% else %}
+
+                                    <span
+                                        class="qty-btn"
+                                        aria-label="Maximum available quantity reached"
+                                        style="opacity: 0.5; cursor: not-allowed;"
+                                    >
+                                        +
+                                    </span>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <!-- REMOVE -->
+                            <a
+                                href="{% url 'remove_from_cart' item.product.id %}"
+                                class="btn btn-outline btn-small"
+                            >
+                                Remove
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+
+            <!-- =========================
+                 ORDER SUMMARY
+            ========================== -->
+            <aside class="order-summary">
+
+                <h2>
+                    Order Summary
+                </h2>
+
+
+                <div class="summary-row">
+
+                    <span>
+                        Subtotal
+                    </span>
+
+                    <strong>
+                        ₹ {{ total }}
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-row">
+
+                    <span>
+                        Delivery
+                    </span>
+
+                    <strong>
+                        Free
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-row total">
+
+                    <span>
+                        Total
+                    </span>
+
+                    <strong>
+                        ₹ {{ total }}
+                    </strong>
+
+                </div>
+
+
+                <a
+                    href="{% url 'checkout' %}"
+                    class="btn btn-primary btn-block"
+                >
+                    Proceed to Checkout
+                </a>
+
+            </aside>
+
+        </div>
+
+
+    {% else %}
+
+
+        <!-- =========================
+             EMPTY CART
+        ========================== -->
+        <div class="empty-state large">
+
+            <h2>
+                Your cart is empty
+            </h2>
+
+            <p>
+                Browse our essentials and add a few favorites to get started.
+            </p>
+
+            <a
+                href="{% url 'home' %}"
+                class="btn btn-primary"
+            >
+                Continue Shopping
+            </a>
+
+        </div>
+
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

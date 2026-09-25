@@ -1,0 +1,139 @@
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block title %}{{ product.name }} | Cartly{% endblock %}
+
+{% block content %}
+
+<main class="container product-detail-page">
+
+    <!-- =========================
+         BREADCRUMB
+    ========================== -->
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+
+        <a href="{% url 'home' %}">
+            Home
+        </a>
+
+        <span>/</span>
+
+        <a href="{% url 'category_products' product.category.id %}">
+            {{ product.category.name }}
+        </a>
+
+        <span>/</span>
+
+        <strong>
+            {{ product.name }}
+        </strong>
+
+    </nav>
+
+
+    <!-- =========================
+         PRODUCT DETAIL
+    ========================== -->
+    <div class="product-detail-card">
+
+
+        <!-- PRODUCT IMAGE -->
+        <div class="product-detail-image">
+
+            {% if product.image %}
+                <img class="product-image" src="{{ product.image.url }}" alt="{{ product.name }}">
+            {% else %}
+                <div class="product-image-missing" role="img" aria-label="Image pending for {{ product.name }}">Image pending</div>
+            {% endif %}
+
+        </div>
+
+
+        <!-- PRODUCT INFORMATION -->
+        <div class="product-detail-info">
+
+            <p class="product-category">
+                {{ product.category.name }}
+            </p>
+
+
+            <h1>
+                {{ product.name }}
+            </h1>
+
+
+            <!-- PRICE + STOCK -->
+            <div class="detail-price-row">
+
+                <h2>
+                    ₹ {{ product.price }}
+                </h2>
+
+
+                <span
+                    class="product-stock {% if product.stock == 0 %}out{% endif %}"
+                >
+
+                    {% if product.stock == 0 %}
+
+                        Out of stock
+
+                    {% else %}
+
+                        In stock · {{ product.stock }} available
+
+                    {% endif %}
+
+                </span>
+
+            </div>
+
+
+            <!-- DESCRIPTION -->
+            <p class="product-description-full">
+
+                {{ product.description|default:'No description available.' }}
+
+            </p>
+
+
+            <!-- ACTION BUTTONS -->
+            <div class="detail-buttons">
+
+                {% if product.stock > 0 %}
+
+                    <a
+                        href="{% url 'add_to_cart' product.id %}"
+                        class="btn btn-primary"
+                    >
+                        Add to cart
+                    </a>
+
+                {% else %}
+
+                    <span
+                        class="btn btn-primary"
+                        style="opacity: 0.6; cursor: not-allowed;"
+                    >
+                        Out of stock
+                    </span>
+
+                {% endif %}
+
+
+                <a
+                    href="{% url 'home' %}"
+                    class="btn btn-outline"
+                >
+                    Continue shopping
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+{% endblock %}

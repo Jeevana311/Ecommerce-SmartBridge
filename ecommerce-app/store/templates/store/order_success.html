@@ -1,0 +1,84 @@
+
+{% extends "store/base.html" %}
+
+{% block title %}Order Confirmed | Cartly{% endblock %}
+
+{% block content %}
+
+<main class="success-page">
+    <div class="container success-container">
+
+        <div class="success-card">
+
+            <div class="success-icon">
+                ✓
+            </div>
+
+            <span class="page-eyebrow">ORDER CONFIRMED</span>
+
+            <h1>Thank you for your order!</h1>
+
+            <p class="success-description">
+                Your order has been placed successfully.
+                We appreciate you shopping with Cartly.
+            </p>
+
+            <div class="success-order-number">
+                <span>Order number</span>
+                <strong>#{{ order.id }}</strong>
+            </div>
+
+            <div class="success-details">
+
+                <div class="success-detail-item">
+                    <span class="detail-icon">✓</span>
+                    <div>
+                        <strong>Order placed</strong>
+                        <p>Your order has been received.</p>
+                    </div>
+                </div>
+
+                <div class="success-detail-item">
+                    <span class="detail-icon">⌖</span>
+                    <div>
+                        <strong>Delivery address</strong>
+                        <p>{{ order.address }}</p>
+                    </div>
+                </div>
+
+                <div class="success-detail-item">
+                    <span class="detail-icon">₹</span>
+                    <div>
+                        <strong>Order total</strong>
+                        <p>₹{{ order.total }}</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="success-actions">
+                <a
+                    href="{% url 'order_details' order_id=order.id %}"
+                    class="success-primary-btn"
+                >
+                    View order details
+                </a>
+
+                <a
+                    href="{% url 'home' %}"
+                    class="success-secondary-btn"
+                >
+                    Continue shopping
+                </a>
+            </div>
+
+            <p class="success-help">
+                Need help? Contact the Cartly support team.
+            </p>
+
+        </div>
+
+    </div>
+</main>
+
+{% endblock %}

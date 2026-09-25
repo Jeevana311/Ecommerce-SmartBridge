@@ -1,0 +1,440 @@
+
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block title %}Order Details | Cartly{% endblock %}
+
+{% block content %}
+
+<div class="order-details-page">
+
+    <div class="order-details-container">
+
+        <!-- =========================
+             PAGE HEADER
+        ========================== -->
+
+        <div class="order-details-heading">
+
+            <div>
+                <p class="order-details-eyebrow">
+                    Order Summary
+                </p>
+
+                <h1>
+                    Order Details
+                </h1>
+
+                <p class="order-details-subtitle">
+                    Review your order information and purchase details.
+                </p>
+            </div>
+
+            <a href="{% url 'my_orders' %}" class="order-back-link">
+                ← My Orders
+            </a>
+
+        </div>
+
+
+        <!-- =========================
+             MAIN ORDER CARD
+        ========================== -->
+
+        <div class="order-details-card">
+
+
+            <!-- =========================
+                 ORDER HEADER
+            ========================== -->
+
+            <div class="order-details-top">
+
+                <div>
+
+                    <p class="order-details-small-label">
+                        ORDER REFERENCE
+                    </p>
+
+                    <h2>
+                        Order #{{ order.id }}
+                    </h2>
+
+                </div>
+
+                <span class="order-details-status">
+                    {{ order.status }}
+                </span>
+
+            </div>
+
+
+            <!-- =========================
+                 REQUEST STATUS
+            ========================== -->
+
+            {% if order.order_requests.all %}
+
+                <div class="order-request-status">
+
+                    <h3>
+                        Request Updates
+                    </h3>
+
+                    {% for order_request in order.order_requests.all %}
+
+                        <p>
+                            <strong>
+                                {{ order_request.request_type }} request:
+                            </strong>
+
+                            {{ order_request.status }}
+
+                            for
+                            {{ order_request.order_item.product.name }}
+                        </p>
+
+                    {% endfor %}
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- =========================
+                 CUSTOMER INFORMATION
+            ========================== -->
+
+            <div class="order-customer-section">
+
+                <div class="order-section-heading">
+
+                    <div class="order-section-icon">
+                        <span>⌂</span>
+                    </div>
+
+                    <div>
+                        <h3>
+                            Customer Information
+                        </h3>
+
+                        <p>
+                            Your billing and delivery details
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="order-customer-grid">
+
+                    <div class="order-customer-item">
+
+                        <span>
+                            Customer
+                        </span>
+
+                        <strong>
+                            {{ order.full_name }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="order-customer-item">
+
+                        <span>
+                            Email
+                        </span>
+
+                        <strong>
+                            {{ order.email }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="order-customer-item">
+
+                        <span>
+                            Phone
+                        </span>
+
+                        <strong>
+                            {{ order.phone }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="order-customer-item">
+
+                        <span>
+                            Order Date
+                        </span>
+
+                        <strong>
+                            {{ order.created_at|date:"d M Y, h:i A" }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="order-customer-item order-address-item">
+
+                        <span>
+                            Delivery Address
+                        </span>
+
+                        <strong>
+                            {{ order.address }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 ORDER ITEMS
+            ========================== -->
+
+            <div class="order-products-section">
+
+                <div class="order-section-heading">
+
+                    <div class="order-section-icon">
+                        <span>▣</span>
+                    </div>
+
+                    <div>
+                        <h3>
+                            Order Items
+                        </h3>
+
+                        <p>
+                            Products included in this order
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="order-products-list">
+
+                    {% for item in order.items.all %}
+
+                        <div class="order-product-item">
+
+
+                            <!-- PRODUCT IMAGE -->
+
+                            <div class="order-product-image">
+
+                                {% if item.product.image %}
+
+                                    <img
+                                        src="{{ item.product.image.url }}"
+                                        alt="{{ item.product.name }}"
+                                    >
+
+                                {% else %}
+
+                                    <div
+                                        class="order-product-image-missing"
+                                        role="img"
+                                        aria-label="Image pending for {{ item.product.name }}"
+                                    >
+                                        Image unavailable
+                                    </div>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <!-- PRODUCT INFORMATION -->
+
+                            <div class="order-product-content">
+
+                                <div class="order-product-main">
+
+                                    <h4>
+                                        {{ item.product.name }}
+                                    </h4>
+
+                                    <p class="order-product-category">
+
+                                        Category:
+                                        {{ item.product.category.name }}
+
+                                    </p>
+
+                                </div>
+
+
+                                <div class="order-product-details">
+
+                                    <div class="order-product-detail">
+
+                                        <span>
+                                            Quantity
+                                        </span>
+
+                                        <strong>
+                                            {{ item.quantity }}
+                                        </strong>
+
+                                    </div>
+
+
+                                    <div class="order-product-detail">
+
+                                        <span>
+                                            Unit Price
+                                        </span>
+
+                                        <strong>
+                                            ₹ {{ item.product.price }}
+                                        </strong>
+
+                                    </div>
+
+
+                                    <div class="order-product-detail">
+
+                                        <span>
+                                            Subtotal
+                                        </span>
+
+                                        <strong class="order-product-subtotal">
+                                            ₹ {{ item.subtotal }}
+                                        </strong>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    {% empty %}
+
+                        <div class="order-empty-state">
+
+                            <h3>
+                                No items found
+                            </h3>
+
+                            <p>
+                                There are no products associated with this order.
+                            </p>
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 ORDER TOTAL
+            ========================== -->
+
+            <div class="order-total-section">
+
+                <div>
+
+                    <span class="order-total-label">
+                        Total Amount
+                    </span>
+
+                    <p class="order-total-caption">
+                        Including all order items
+                    </p>
+
+                </div>
+
+                <strong class="order-total-value">
+                    ₹ {{ order.total }}
+                </strong>
+
+            </div>
+
+
+            <!-- =========================
+                 ACTIONS
+            ========================== -->
+
+            <div class="order-detail-actions">
+
+                {% if order.status == 'Pending' or order.status == 'Processing' %}
+
+                    <form
+                        method="post"
+                        action="{% url 'cancel_order' order.id %}"
+                        onsubmit="return confirm('Are you sure you want to cancel this order?');"
+                    >
+
+                        {% csrf_token %}
+
+                        <button
+                            type="submit"
+                            class="order-action-button order-cancel-button"
+                        >
+                            Cancel Order
+                        </button>
+
+                    </form>
+
+                {% endif %}
+
+
+                {% if order.status == 'Delivered' %}
+
+                    <a
+                        href="{% url 'order_request' order.id 'Return' %}"
+                        class="order-action-button order-outline-button"
+                    >
+                        Request Return
+                    </a>
+
+                    <a
+                        href="{% url 'order_request' order.id 'Exchange' %}"
+                        class="order-action-button order-outline-button"
+                    >
+                        Request Exchange
+                    </a>
+
+                {% endif %}
+
+
+                <a
+                    href="{% url 'my_orders' %}"
+                    class="order-action-button order-primary-button"
+                >
+                    Back to My Orders
+                </a>
+
+
+                <a
+                    href="{% url 'home' %}"
+                    class="order-action-button order-outline-button"
+                >
+                    Continue Shopping
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

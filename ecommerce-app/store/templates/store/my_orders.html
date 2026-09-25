@@ -1,0 +1,125 @@
+{% extends 'store/base.html' %}
+
+{% block title %}My Orders | Cartly{% endblock %}
+
+{% block content %}
+
+<div class="container section">
+
+    <!-- =========================
+         PAGE HEADER
+    ========================== -->
+    <div class="section-heading">
+
+        <p class="eyebrow">
+            Your account
+        </p>
+
+        <h1>
+            My Orders
+        </h1>
+
+        <p>
+            View your Cartly purchases and order status.
+        </p>
+
+    </div>
+
+
+    {% if orders %}
+
+        <!-- =========================
+             ORDERS LIST
+        ========================== -->
+        <div class="orders-list">
+
+            {% for order in orders %}
+
+                <div class="order-card">
+
+
+                    <!-- ORDER HEADER -->
+                    <div class="order-topline">
+
+                        <h3>
+                            Order #{{ order.id }}
+                        </h3>
+
+                        <span class="order-status">
+                            {{ order.status }}
+                        </span>
+
+                    </div>
+
+
+                    <!-- ORDER INFORMATION -->
+                    <div class="order-meta">
+
+                        <p>
+                            <strong>Order Date:</strong>
+                            {{ order.created_at|date:"d M Y, h:i A" }}
+                        </p>
+
+                        <p>
+                            <strong>Customer:</strong>
+                            {{ order.full_name }}
+                        </p>
+
+                        <p>
+                            <strong>Total:</strong>
+                            ₹ {{ order.total }}
+                        </p>
+
+                    </div>
+
+
+                    <!-- VIEW DETAILS -->
+                    <div class="order-actions">
+                        <a href="{% url 'order_details' order.id %}" class="btn btn-secondary btn-small">View Details</a>
+                        {% if order.status == 'Pending' or order.status == 'Processing' %}
+                            <form method="post" action="{% url 'cancel_order' order.id %}" onsubmit="return confirm('Are you sure you want to cancel this order?');">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger btn-small">Cancel Order</button>
+                            </form>
+                        {% elif order.status == 'Delivered' %}
+                            <a href="{% url 'order_request' order.id 'Return' %}" class="btn btn-outline btn-small">Request Return</a>
+                            <a href="{% url 'order_request' order.id 'Exchange' %}" class="btn btn-outline btn-small">Request Exchange</a>
+                        {% endif %}
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+
+    {% else %}
+
+        <!-- =========================
+             NO ORDERS
+        ========================== -->
+        <div class="empty-state large">
+
+            <h2>
+                No orders yet
+            </h2>
+
+            <p>
+                Your recent orders will appear here after you place a purchase.
+            </p>
+
+            <a
+                href="{% url 'home' %}"
+                class="btn btn-primary"
+            >
+                Start Shopping
+            </a>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
