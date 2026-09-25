@@ -1,4 +1,4 @@
-
+﻿
 {% extends 'store/base.html' %}
 {% load static %}
 
@@ -28,14 +28,14 @@
 
             <p class="hero-description">
                 Discover everyday essentials, useful technology,
-                fashion and more — all in one practical place.
+                fashion and more â€” all in one practical place.
             </p>
 
             <div class="hero-actions">
 
                 <a href="#products" class="btn btn-primary">
                     Shop products
-                    <span aria-hidden="true">→</span>
+                    <span aria-hidden="true">â†’</span>
                 </a>
 
                 <a href="#categories" class="btn hero-outline-btn">
@@ -236,7 +236,7 @@
 
                             <img
                                 class="product-image"
-                                src="{{ product.image.url }}"
+                                src="{{ product.static_image_url }}"
                                 alt="{{ product.name }}"
                                 loading="lazy"
                             >
@@ -284,7 +284,7 @@
                         <div class="product-meta">
 
                             <span class="product-price">
-                                ₹ {{ product.price }}
+                                â‚¹ {{ product.price }}
                             </span>
 
 

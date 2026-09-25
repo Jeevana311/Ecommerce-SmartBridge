@@ -1,4 +1,4 @@
-
+﻿
 {% extends "store/base.html" %}
 
 {% block title %}Checkout | Cartly{% endblock %}
@@ -27,7 +27,7 @@
         <!-- Checkout Progress -->
         <div class="checkout-progress">
             <div class="progress-step completed">
-                <span>✓</span>
+                <span>âœ“</span>
                 <p>Cart</p>
             </div>
 
@@ -52,7 +52,7 @@
             <section class="checkout-card">
 
                 <div class="checkout-card-heading">
-                    <div class="checkout-heading-icon">⌖</div>
+                    <div class="checkout-heading-icon">âŒ–</div>
 
                     <div>
                         <h2>Delivery information</h2>
@@ -118,7 +118,7 @@
                     </div>
 
                     <div class="checkout-payment-note">
-                        <span>✓</span>
+                        <span>âœ“</span>
                         <div>
                             <strong>Cash on delivery</strong>
                             <p>Order payment options can be extended later.</p>
@@ -127,11 +127,11 @@
 
                     <button type="submit" class="primary-checkout-btn">
                         Place order
-                        <span>→</span>
+                        <span>â†’</span>
                     </button>
 
                     <p class="checkout-security-note">
-                        🔒 Your information is handled securely.
+                        ðŸ”’ Your information is handled securely.
                     </p>
                 </form>
 
@@ -157,18 +157,18 @@
                         <div class="summary-product-image">
                             {% if item.product.image %}
                                 <img
-                                    src="{{ item.product.image.url }}"
+                                    src="{{ item.product.static_image_url }}"
                                     alt="{{ item.product.name }}"
                                 >
                             {% else %}
-                                <span>🛍</span>
+                                <span>ðŸ›</span>
                             {% endif %}
                         </div>
 
                         <div class="summary-product-details">
                             <h3>{{ item.product.name }}</h3>
                             <p>Quantity: {{ item.quantity }}</p>
-                            <strong>₹{{ item.total_price }}</strong>
+                            <strong>â‚¹{{ item.total_price }}</strong>
                         </div>
 
                     </div>
@@ -185,7 +185,7 @@
 
                 <div class="summary-price-row">
                     <span>Subtotal</span>
-                    <strong>₹{{ total }}</strong>
+                    <strong>â‚¹{{ total }}</strong>
                 </div>
 
                 <div class="summary-price-row">
@@ -195,35 +195,35 @@
 
                 <div class="summary-price-row">
                     <span>Discount</span>
-                    <strong>₹0</strong>
+                    <strong>â‚¹0</strong>
                 </div>
 
                 <div class="summary-divider"></div>
 
                 <div class="summary-total-row">
                     <span>Total amount</span>
-                    <strong>₹{{ total }}</strong>
+                    <strong>â‚¹{{ total }}</strong>
                 </div>
 
                 <div class="summary-benefits">
                     <div>
-                        <span>✓</span>
+                        <span>âœ“</span>
                         <p>Secure checkout</p>
                     </div>
 
                     <div>
-                        <span>✓</span>
+                        <span>âœ“</span>
                         <p>Quality products</p>
                     </div>
 
                     <div>
-                        <span>✓</span>
+                        <span>âœ“</span>
                         <p>Easy order tracking</p>
                     </div>
                 </div>
 
                 <a href="{% url 'cart' %}" class="back-to-cart-link">
-                    ← Back to cart
+                    â† Back to cart
                 </a>
 
             </aside>

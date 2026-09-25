@@ -1,4 +1,4 @@
-
+﻿
 {% extends 'store/base.html' %}
 {% load static %}
 
@@ -31,7 +31,7 @@
             </div>
 
             <a href="{% url 'my_orders' %}" class="order-back-link">
-                ← My Orders
+                â† My Orders
             </a>
 
         </div>
@@ -110,7 +110,7 @@
                 <div class="order-section-heading">
 
                     <div class="order-section-icon">
-                        <span>⌂</span>
+                        <span>âŒ‚</span>
                     </div>
 
                     <div>
@@ -206,7 +206,7 @@
                 <div class="order-section-heading">
 
                     <div class="order-section-icon">
-                        <span>▣</span>
+                        <span>â–£</span>
                     </div>
 
                     <div>
@@ -236,7 +236,7 @@
                                 {% if item.product.image %}
 
                                     <img
-                                        src="{{ item.product.image.url }}"
+                                        src="{{ item.product.static_image_url }}"
                                         alt="{{ item.product.name }}"
                                     >
 
@@ -297,7 +297,7 @@
                                         </span>
 
                                         <strong>
-                                            ₹ {{ item.product.price }}
+                                            â‚¹ {{ item.product.price }}
                                         </strong>
 
                                     </div>
@@ -310,7 +310,7 @@
                                         </span>
 
                                         <strong class="order-product-subtotal">
-                                            ₹ {{ item.subtotal }}
+                                            â‚¹ {{ item.subtotal }}
                                         </strong>
 
                                     </div>
@@ -361,7 +361,7 @@
                 </div>
 
                 <strong class="order-total-value">
-                    ₹ {{ order.total }}
+                    â‚¹ {{ order.total }}
                 </strong>
 
             </div>

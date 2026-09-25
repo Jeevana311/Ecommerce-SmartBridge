@@ -1,4 +1,4 @@
-{% extends 'store/base.html' %}
+﻿{% extends 'store/base.html' %}
 {% load static %}
 
 {% block title %}Shopping Cart | Cartly{% endblock %}
@@ -42,7 +42,7 @@
                         <div class="cart-item-image">
 
                             {% if item.product.image %}
-                                <img class="product-image" src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                                <img class="product-image" src="{{ item.product.static_image_url }}" alt="{{ item.product.name }}">
                             {% else %}
                                 <div class="product-image-missing" role="img" aria-label="Image pending for {{ item.product.name }}">Image pending</div>
                             {% endif %}
@@ -64,12 +64,12 @@
 
 
                             <p class="item-price">
-                                ₹ {{ item.product.price }}
+                                â‚¹ {{ item.product.price }}
                             </p>
 
 
                             <p class="item-meta">
-                                Subtotal: ₹ {{ item.subtotal }}
+                                Subtotal: â‚¹ {{ item.subtotal }}
                             </p>
 
 
@@ -83,7 +83,7 @@
                                     class="qty-btn"
                                     aria-label="Decrease quantity"
                                 >
-                                    −
+                                    âˆ’
                                 </a>
 
 
@@ -151,7 +151,7 @@
                     </span>
 
                     <strong>
-                        ₹ {{ total }}
+                        â‚¹ {{ total }}
                     </strong>
 
                 </div>
@@ -177,7 +177,7 @@
                     </span>
 
                     <strong>
-                        ₹ {{ total }}
+                        â‚¹ {{ total }}
                     </strong>
 
                 </div>
@@ -226,3 +226,4 @@
 </div>
 
 {% endblock %}
+

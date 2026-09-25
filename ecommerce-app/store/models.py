@@ -1,5 +1,8 @@
+
 from django.db import models
 from django.contrib.auth.models import User
+from django.templatetags.static import static
+from django.utils.text import slugify
 
 
 # ===========================
@@ -32,6 +35,7 @@ class Category(models.Model):
             "accessories": "accessories",
             "home & kitchen": "home-kitchen",
         }
+
         return f"images/categories/{image_keys.get(self.name.lower(), 'default')}.svg"
 
 
@@ -78,8 +82,14 @@ class Product(models.Model):
         auto_now=True
     )
 
+    @property
+    def static_image_url(self):
+        filename = f"{slugify(self.name)}.svg"
+        return static(f"images/products/{filename}")
+
     def __str__(self):
         return self.name
+
 
 # ===========================
 # Order
@@ -180,6 +190,10 @@ class OrderItem(models.Model):
         return self.product.name
 
 
+# ===========================
+# Order Request
+# ===========================
+
 class OrderRequest(models.Model):
 
     REQUEST_TYPES = [
@@ -194,15 +208,52 @@ class OrderRequest(models.Model):
         ("Completed", "Completed"),
     ]
 
-    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="order_requests")
-    order_item = models.ForeignKey(OrderItem, on_delete=models.CASCADE, related_name="requests")
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="order_requests")
-    request_type = models.CharField(max_length=10, choices=REQUEST_TYPES)
-    reason = models.CharField(max_length=200)
-    details = models.TextField(blank=True)
-    status = models.CharField(max_length=12, choices=STATUS_CHOICES, default="Requested")
-    created_at = models.DateTimeField(auto_now_add=True)
-    reviewed_at = models.DateTimeField(null=True, blank=True)
+    order = models.ForeignKey(
+        Order,
+        on_delete=models.CASCADE,
+        related_name="order_requests"
+    )
+
+    order_item = models.ForeignKey(
+        OrderItem,
+        on_delete=models.CASCADE,
+        related_name="requests"
+    )
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="order_requests"
+    )
+
+    request_type = models.CharField(
+        max_length=10,
+        choices=REQUEST_TYPES
+    )
+
+    reason = models.CharField(
+        max_length=200
+    )
+
+    details = models.TextField(
+        blank=True
+    )
+
+    status = models.CharField(
+        max_length=12,
+        choices=STATUS_CHOICES,
+        default="Requested"
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    reviewed_at = models.DateTimeField(
+        null=True,
+        blank=True
+    )
 
     def __str__(self):
+
         return f"{self.request_type} request for Order #{self.order_id}"
