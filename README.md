@@ -112,7 +112,11 @@ git clone https://github.com/Jeevana311/Ecommerce-SmartBridge.git
 ### 2. Navigate to the Project
 
 ```bash
+<<<<<<< HEAD
 cd ecommerce-app
+=======
+cd Ecommerce-SmartBridge
+>>>>>>> origin/main
 ```
 
 ### 3. Create a Virtual Environment
@@ -202,4 +206,8 @@ http://127.0.0.1:8000/
 
 ## 📄 License
 
+<<<<<<< HEAD
 This project is developed for educational and practical development purposes.
+=======
+This project is developed for educational and practical development purposes.
+>>>>>>> origin/main
