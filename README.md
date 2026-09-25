@@ -82,19 +82,19 @@ The interface focuses on clean layouts, accessible navigation, consistent spacin
 ```text
 Ecommerce-SmartBridge/
 │
-├── manage.py
-├── store/
-│   ├── migrations/
-│   ├── templates/
-│   ├── static/
-│   ├── models.py
-│   ├── views.py
-│   ├── urls.py
-│   └── ...
-│
-├── requirements.txt
-├── README.md
-└── ...
+└── ecommerce-app/
+    │
+    ├── manage.py
+    ├── requirements.txt
+    │
+    ├── api/
+    ├── ecommerce/
+    ├── store/
+    │
+    ├── static/
+    ├── staticfiles/
+    │
+    └── ...
 ```
 
 > The project structure may vary depending on the current implementation.
@@ -112,12 +112,11 @@ git clone https://github.com/Jeevana311/Ecommerce-SmartBridge.git
 ### 2. Navigate to the Project
 
 ```bash
-<<<<<<< HEAD
-cd ecommerce-app
-=======
 cd Ecommerce-SmartBridge
->>>>>>> origin/main
+cd ecommerce-app
 ```
+
+> If `manage.py` is located directly in the cloned repository, navigate to that directory instead.
 
 ### 3. Create a Virtual Environment
 
@@ -158,7 +157,13 @@ python manage.py makemigrations
 python manage.py migrate
 ```
 
-### 8. Run the Development Server
+### 8. Collect Static Files
+
+```bash
+python manage.py collectstatic --noinput
+```
+
+### 9. Run the Development Server
 
 ```bash
 python manage.py runserver
@@ -183,6 +188,21 @@ http://127.0.0.1:8000/
 
 ---
 
+## 🚀 Deployment
+
+The project can be deployed using a suitable hosting platform that supports Django applications.
+
+Before deployment:
+
+- Configure the production environment variables.
+- Set up the PostgreSQL database.
+- Configure allowed hosts and security settings.
+- Run database migrations.
+- Collect static files.
+- Configure the production server.
+
+---
+
 ## 🔮 Future Improvements
 
 - Advanced product search and filtering
@@ -197,17 +217,13 @@ http://127.0.0.1:8000/
 
 ## 👩‍💻 Author
 
-**Jeevana Sruthi**
+### Jeevana Sruthi
 
-- GitHub: [Jeevana311](https://github.com/Jeevana311)
-- LinkedIn: [Jeevana Sruthi](https://www.linkedin.com/in/jeevanasruthiperikala/)
+- **GitHub:** [Jeevana311](https://github.com/Jeevana311)
+- **LinkedIn:** [Jeevana Sruthi](https://www.linkedin.com/in/jeevanasruthiperikala/)
 
 ---
 
 ## 📄 License
 
-<<<<<<< HEAD
 This project is developed for educational and practical development purposes.
-=======
-This project is developed for educational and practical development purposes.
->>>>>>> origin/main
